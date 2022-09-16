@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { fetchQuizQuestions } from './API';
-//Components import 
+//Components
 import QuestionCard from './components/QuestionCard'
 // types
 import { QuestionState, Difficulty } from './API';
 
 export type AnswerObject = {
-  questions: string;
+  question: string;
   answer: string;
   correct: boolean;
-  correct_answer: string;
+  correctAnswer: string;
 }
 
 const TOTAL_QUESTIONS = 10;
@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const [gameOver, setGameOver] = useState(true);
 
 
-  const startTrivia = async() => {
+  const startTrivia = async () => {
     setLoading(true);
     setGameOver(false);
     const newQuestions = await fetchQuizQuestions(
@@ -39,21 +39,21 @@ const App: React.FC = () => {
   };
 
 
-  const checkAnswer = (e: any) => {
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       //User answer
       const answer = e.currentTarget.value;
       //Check the answer
       const correct = questions[number].correct_answer === answer;
       //Add score if answer is correct
-      if (correct) setScore((prev) => prev + 1)
+      if (correct) setScore((prev) => prev + 1);
       //Save answer in the array for your answers
       const answerObject = {
         question: questions[number].question,
         answer,
         correct,
         correctAnswer: questions[number].correct_answer,
-      }
+      };
       setUserAnswers((prev) => [...prev, answerObject]);
     }
   };
